@@ -8,8 +8,15 @@ class Page extends Swoole\Controller
     //hello world
     function index()
     {
-        $this->http->header('Content-Type', 'text/html; charset=UTF-8');
-        return $this->showTrace(true);
+        $this->session->start();
+        //已经登录了，跳转到
+        if ($this->user->isLogin())
+        {
+            $this->http->redirect('/user/home/');
+        }else{
+            $this->http->redirect('/user/login');
+        }
+        return ;
     }
 
     function detail()
