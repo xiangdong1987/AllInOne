@@ -1,4 +1,4 @@
-
+//主控制器
 var app = angular.module("myApp", ['ngRoute']);
 app.config(function ($routeProvider) {
     $routeProvider.when('/login', {
@@ -58,20 +58,23 @@ app.factory("AuthenticationService", function ($http, $location, SessionService)
 app.controller("LoginController", function ($scope, $location, $http, AuthenticationService) {
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.bodyClass = 'hold-transition login-page';
-
     $scope.login = function () {
         AuthenticationService.login($scope.credentials).success(function (data) {
             console.log(data);
-            $location.path("/home");
+            if(data.code==1){
+                $location.path("/home");
+            }else{
+                $scope.message=data.message;
+                $scope.showMessage=true;
+            }
         });
-    }
+    };
 
 });
 app.controller("HomeController", function ($scope, $location, $http, AuthenticationService) {
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.sidebar='';
     $scope.userMenu='';
-
     $scope.homePage = function () {
         console.log('hellow world');
     };
