@@ -50,3 +50,17 @@ app.directive('myAlert', function () {
         }
     };
 });
+app.directive('toggleClass', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            toggleClass: '@'
+        },
+        link: function($scope, $element){
+            $element.on('click', function(e){
+                e.stopPropagation();
+                $element.toggleClass($scope.toggleClass);
+            });
+        }
+    };
+});

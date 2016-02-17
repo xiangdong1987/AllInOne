@@ -75,6 +75,9 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.sidebar='';
     $scope.userMenu='';
+    if(!AuthenticationService.isLoggedIn()){
+        $location.path("/login");
+    }
     $scope.homePage = function () {
         console.log('hellow world');
     };
