@@ -58,6 +58,11 @@ app.factory("AuthenticationService", function ($http, $location, SessionService)
 app.controller("LoginController", function ($scope, $location, $http, AuthenticationService) {
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.bodyClass = 'hold-transition login-page';
+    if(!AuthenticationService.isLoggedIn()){
+        $location.path("/login");
+    }else{
+        $location.path("/home");
+    }
     $scope.login = function () {
         AuthenticationService.login($scope.credentials).success(function (data) {
             console.log(data);
@@ -75,6 +80,7 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.sidebar='';
     $scope.userMenu='';
+    $scope.tmplateUrl="./build/template/admin/index.html"
     if(!AuthenticationService.isLoggedIn()){
         $location.path("/login");
     }
