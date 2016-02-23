@@ -80,7 +80,13 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.sidebar='';
     $scope.userMenu='';
-    $scope.tmplateUrl="./build/template/admin/index.html"
+    $scope.notify='';
+    $scope.homeTab='';
+    $scope.settingTab='active';
+    $scope.statsTab='';
+    $scope.tmplateUrl="./build/template/admin/index.html?"+Date.parse(new Date());
+    $scope.headerUrl="./build/template/common/header.html?"+Date.parse(new Date());
+    $scope.controlSidebarUrl="./build/template/common/control_sidebar.html?"+Date.parse(new Date());
     if(!AuthenticationService.isLoggedIn()){
         $location.path("/login");
     }
@@ -126,6 +132,13 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
             }
         }
     };
+    $scope.controlSidebarToggle = function () {
+        if($scope.controlSidebar){
+            $scope.controlSidebar='';
+        }else{
+            $scope.controlSidebar='control-sidebar-open';
+        }
+    };
     $scope.userMenuToggle = function (){
         if($scope.userMenu){
             $scope.userMenu='';
@@ -134,6 +147,21 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
             $scope.userMenu='open';
             $scope.ariaExpanded='true';
         }
+    };
+    $scope.homeTabToggle = function(){
+        $scope.homeTab='active';
+        $scope.settingTab='';
+        $scope.statsTab='';
+    };
+    $scope.settingTabToggle = function(){
+        $scope.homeTab='';
+        $scope.settingTab='active';
+        $scope.statsTab='';
+    };
+    $scope.statsTabToggle = function(){
+        $scope.homeTab='';
+        $scope.settingTab='';
+        $scope.statsTab='active';
     };
 });
 
