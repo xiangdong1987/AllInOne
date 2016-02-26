@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7e1570c9-adcc-43b4-a1b5-25f42ad1d40f" name="aio" url="http://103.42.28.238">
+        <fileTransfer host="103.42.28.238" port="22" rootFolder="/data/www/AllInOne" accessType="SFTP" password="dffbdfebdff0dfdddfd9dfd2df9bdf98df99" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

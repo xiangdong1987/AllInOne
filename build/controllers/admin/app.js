@@ -86,6 +86,7 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.statsTab='';
     $scope.tmplateUrl="./build/template/admin/index.html?"+Date.parse(new Date());
     $scope.headerUrl="./build/template/common/header.html?"+Date.parse(new Date());
+    $scope.sidebarUrl="./build/template/common/sidebar.html?"+Date.parse(new Date());
     $scope.controlSidebarUrl="./build/template/common/control_sidebar.html?"+Date.parse(new Date());
     if(!AuthenticationService.isLoggedIn()){
         $location.path("/login");

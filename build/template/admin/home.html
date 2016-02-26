@@ -18,7 +18,7 @@
     <div class="wrapper">
         <header class="main-header" ng-include="headerUrl"></header>
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar" ng-include="'./build/template/common/sidebar.html'"></aside>
+        <aside class="main-sidebar" ng-include="sidebarUrl"></aside>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" ng-include="tmplateUrl"></div>
@@ -26,7 +26,7 @@
         <footer class="main-footer" ng-include="'./build/template/common/footer.html'"></footer>
 
         <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark {{controlSidebar}}" ng-include="controlSidebarUrl"></aside>
-        <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
+        <!--<aside class="control-sidebar control-sidebar-dark {{controlSidebar}}" ng-include="controlSidebarUrl"></aside>-->
+        <!--<div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>-->
     </div>
 </div>
