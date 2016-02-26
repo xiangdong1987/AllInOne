@@ -59,8 +59,8 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 文章列表</a></li>
-                            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 添加文章</a></li>
+                            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 第一章</a></li>
+                            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 第二章</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -70,10 +70,13 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" ng-include="tmplateUrl"></div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer" ng-include="'./build/template/common/footer.html'"></footer>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark {{controlSidebar}}" ng-include="controlSidebarUrl"></aside>
-        <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.3.2
+            </div>
+            <strong>Copyright &copy; 2015-2016 <a href="http://www.showbig.com.cn/index.html">xdd</a>.</strong> All
+            rights
+            reserved.
+        </footer>
     </div>
 </div>

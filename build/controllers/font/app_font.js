@@ -12,17 +12,23 @@ app.config(function ($routeProvider) {
     $routeProvider.otherwise({redirectTo: '/index'});
 });
 
-app.controller("indexController", function ($scope, $location, $http) {
-    $scope.credentials = {UserName: "", Password: "", RememberMe: false};
-    $scope.sidebar='';
-    $scope.userMenu='';
-    $scope.notify='';
-    $scope.homeTab='';
-    $scope.settingTab='active';
-    $scope.statsTab='';
-    $scope.tmplateUrl="./build/template/admin/index.html?"+Date.parse(new Date());
-    $scope.headerUrl="./build/template/common/header.html?"+Date.parse(new Date());
-    $scope.controlSidebarUrl="./build/template/common/control_sidebar.html?"+Date.parse(new Date());
+app.controller("indexController", function ($scope, $location, $http,$sce) {
+    var url = "/api/getHomePage";
+    var info=""
+    $http.post(url).success(function (data) {
+        info=data.data;
+        $scope.title = info.title;
+        $scope.content = $sce.trustAsHtml(info.content);
+        console.log(info);
+    }).error(function (data) {
+        console.log(data);
+    });
+
+    $scope.bread = "首页";
+    $scope.chapter = "介绍";
+    $scope.sidebar = '';
+    $scope.statsTab = '';
+    $scope.tmplateUrl = "./build/template/font/page.html?" + Date.parse(new Date());
 
     $scope.expiry = function () {
         var url = "/api/values";
@@ -34,51 +40,19 @@ app.controller("indexController", function ($scope, $location, $http) {
             });
     };
     $scope.sidebarToggle = function () {
-        if(window.innerWidth>config.screenSizes.sm-1){
-            if($scope.sidebar){
-                $scope.sidebar='';
-            }else{
-                $scope.sidebar='sidebar-collapse';
+        if (window.innerWidth > config.screenSizes.sm - 1) {
+            if ($scope.sidebar) {
+                $scope.sidebar = '';
+            } else {
+                $scope.sidebar = 'sidebar-collapse';
             }
-        }else{
-            if($scope.sidebar){
-                $scope.sidebar='';
-            }else{
-                $scope.sidebar='sidebar-open';
+        } else {
+            if ($scope.sidebar) {
+                $scope.sidebar = '';
+            } else {
+                $scope.sidebar = 'sidebar-open';
             }
         }
     };
-    $scope.controlSidebarToggle = function () {
-        if($scope.controlSidebar){
-            $scope.controlSidebar='';
-        }else{
-            $scope.controlSidebar='control-sidebar-open';
-        }
-    };
-    $scope.userMenuToggle = function (){
-        if($scope.userMenu){
-            $scope.userMenu='';
-            $scope.ariaExpanded='false';
-        }else{
-            $scope.userMenu='open';
-            $scope.ariaExpanded='true';
-        }
-    };
-    $scope.homeTabToggle = function(){
-        $scope.homeTab='active';
-        $scope.settingTab='';
-        $scope.statsTab='';
-    };
-    $scope.settingTabToggle = function(){
-        $scope.homeTab='';
-        $scope.settingTab='active';
-        $scope.statsTab='';
-    };
-    $scope.statsTabToggle = function(){
-        $scope.homeTab='';
-        $scope.settingTab='';
-        $scope.statsTab='active';
-    };
-
 });
 
