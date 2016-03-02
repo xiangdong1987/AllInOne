@@ -69,7 +69,6 @@ app.controller("LoginController", function ($scope, $location, $http, Authentica
     }
     $scope.login = function () {
         AuthenticationService.login($scope.credentials).success(function (data) {
-            console.log(data);
             if(data.code==1){
                 $location.path("/home");
             }else{
@@ -99,7 +98,6 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.chapter = {chapter_name:"",status:1,pid:0,rank:0};
     $scope.addChapter = function (chapter){
         $http.post(config.home_url + "/api/addChapter", chapter).success(function(data){
-            console.log(data);
             if(data.code==1){
                 $location.path("/index");
             }else{
@@ -111,7 +109,6 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.article ={chapter_id:"",title:"",content:""};
     $scope.addArticle = function (chapter){
         $http.post(config.home_url + "/api/addArticle", chapter).success(function(data){
-            console.log(data);
             if(data.code==1){
                 $location.path("/index");
             }else{
@@ -123,7 +120,6 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
 
     $scope.logout = function () {
         AuthenticationService.logout().success(function (data) {
-            console.log(data);
             $location.path("/login");
         });
     };
@@ -177,7 +173,6 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         if(template=='articleList'){
             $http.post(config.home_url + "/api/getArticle").success(function(data){
                 if(data.code==1){
-                    console.log(data.data);
                     $scope.articleList=data.data;
                 }else{
                     $scope.articleList=data.message;
@@ -187,6 +182,10 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         }
         $scope.tmplateUrl="./build/template/admin/"+template+".html?"+Date.parse(new Date());
     };
+    $scope.addArticlePage = function () {
+        $scope.tmplateUrl="./build/template/admin/addArticle.html?"+Date.parse(new Date());
+    };
+
     $scope.editArticle = function (id){
         $http.post(config.home_url + "/api/getArticleById",{id:id}).success(function(data){
             $scope.article.title=data.data.title;
@@ -200,6 +199,39 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         $http.post(config.home_url + "/api/saveArticle",article).success(function(data){
             if(data.code==1){
                 $scope.changePage('articleList');
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+    };
+    $scope.chapterList = function (){
+        $http.post(config.home_url + "/api/getChapter").success(function(data){
+            if(data.code==1){
+                $scope.articleList=data.data;
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $scope.tmplateUrl="./build/template/admin/chapterList.html?"+Date.parse(new Date());
+    };
+    $scope.addChapterPage = function () {
+        $scope.tmplateUrl="./build/template/admin/addChapter.html?"+Date.parse(new Date());
+    };
+    $scope.editChapter = function (id){
+        $http.post(config.home_url + "/api/getChapterById",{id:id}).success(function(data){
+            $scope.chapter.chapter_name=data.data.chapter_name;
+            $scope.chapter.id=data.data.id;
+            $scope.chapter.content=data.data.content;
+            $scope.chapter.rank=data.data.rank;
+        });
+        $scope.tmplateUrl="./build/template/admin/editChapter.html?"+Date.parse(new Date());
+    };
+    $scope.saveChapter = function(chapter){
+        $http.post(config.home_url + "/api/saveChapter",chapter).success(function(data){
+            if(data.code==1){
+                $scope.chapterList();
             }else{
                 $scope.articleList=data.message;
                 $scope.showMessage=true;

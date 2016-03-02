@@ -53,14 +53,21 @@
                             <i class="fa fa-dashboard"></i> <span>首页</span>
                         </a>
                     </li>
-                    <li class="treeview" toggle-class="active">
+                    <li class="treeview" toggle-class="active" ng-repeat="first in menu">
                         <a href="">
-                            <i class="fa fa-book"></i> <span>引言</span>
+                            <i class="fa fa-book"></i> <span>{{first.name}}</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
+
                         <ul class="treeview-menu">
-                            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 第一章</a></li>
-                            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 第二章</a></li>
+                            <li ng-repeat="second in first.list ">
+                                <a href=""><i class="fa fa-circle-o"></i> {{second.name}}</a>
+                                <ul class="treeview-menu menu-open" style="display: block;">
+                                    <li ng-repeat="third in second.list ">
+                                        <a href="" ng-click="transformPage(third.id)"><i class="fa fa-circle-o"></i>{{third.name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>

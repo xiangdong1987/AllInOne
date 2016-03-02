@@ -23,6 +23,16 @@ app.controller("indexController", function ($scope, $location, $http,$sce) {
     }).error(function (data) {
         console.log(data);
     });
+    //获取菜单
+    $http.post(config.home_url + "api/getMenu").success(function(data){
+        if(data.code==1){
+            console.log(data.data);
+            $scope.menu=data.data;
+        }else{
+            $scope.articleList=data.message;
+            $scope.showMessage=true;
+        }
+    });
 
     $scope.bread = "首页";
     $scope.chapter = "介绍";
@@ -30,15 +40,6 @@ app.controller("indexController", function ($scope, $location, $http,$sce) {
     $scope.statsTab = '';
     $scope.tmplateUrl = "./build/template/font/page.html?" + Date.parse(new Date());
 
-    $scope.expiry = function () {
-        var url = "/api/values";
-        $http.post(url).success(function (data) {
-                console.log(data);
-            })
-            .error(function (data) {
-                console.log(data);
-            });
-    };
     $scope.sidebarToggle = function () {
         if (window.innerWidth > config.screenSizes.sm - 1) {
             if ($scope.sidebar) {
@@ -53,6 +54,18 @@ app.controller("indexController", function ($scope, $location, $http,$sce) {
                 $scope.sidebar = 'sidebar-open';
             }
         }
+    };
+    $scope.transformPage = function (id){
+        $http.post(config.home_url + "/api/getArticleById",{id:id}).success(function(data){
+            if(data.code==1){
+                $scope.title = data.data.title;
+                $scope.content = $sce.trustAsHtml(data.data.content);
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $scope.tmplateUrl="./build/template/font/page.html?"+Date.parse(new Date());
     };
 });
 
