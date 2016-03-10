@@ -43,7 +43,7 @@ class SelectDB
     //Count计算
     private $count_fields = '*';
 
-    public $page_size = 10;
+    public $page_size = 15;
     public $num = 0;
     public $pages = 0;
     public $page = 0;

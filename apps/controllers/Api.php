@@ -88,11 +88,16 @@ class Api extends BasicController
     {
         $postData = file_get_contents("php://input");
         $request = json_decode($postData, 1);
+        $page = $request['page'] ? $request : 1;
         $where["order"] = 'id';
+        $where["page"] = $page;
         $Article = model('Article');
-        $flag = $Article->gets($where);
+        $pageStat=[];
+        $flag = $Article->gets($where,$pageStat);
         if ($flag) {
-            return $this->returnSucess($flag);
+            $result['data']=$flag;
+            $result['page']=handlePage((array)$pageStat);
+            return $this->returnSucess($result);
         } else {
             return $this->returnFailure("插入失败");
         }
@@ -227,7 +232,7 @@ class Api extends BasicController
         foreach ($result_1 as $one) {
             $last[$one['id']]['name'] = $one['chapter_name'];
             $second['where'] = [
-                "pid = ".$one['id'],
+                "pid = " . $one['id'],
                 "status =  1"
             ];
             $list = $Chapter->gets($second);

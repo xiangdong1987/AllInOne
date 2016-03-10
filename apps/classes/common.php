@@ -158,3 +158,24 @@ function jsonReturn($data) {
 	echo json_encode($data);
 	exit;
 }
+
+/**
+ * 处理分页
+ * @param $page
+ * @return mixed
+ */
+function handlePage($page){
+	$result['total']=$page['total'];
+	$result['page']=$page['page'];
+	$result['totalpage']=$page['totalpage'];
+
+	if($result['totalpage']>5){
+		$list=[1,2,'...',$result['totalpage']-1,$result['totalpage']];
+	}else{
+		for($i=1;$i<=$result['totalpage'];$i++){
+			$list[]=$i;
+		}
+	}
+	$result['list']=$list;
+	return $result;
+}

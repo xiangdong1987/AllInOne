@@ -169,18 +169,17 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         $scope.settingTab='';
         $scope.statsTab='active';
     };
-    $scope.changePage = function (template){
-        if(template=='articleList'){
-            $http.post(config.home_url + "/api/getArticle").success(function(data){
-                if(data.code==1){
-                    $scope.articleList=data.data;
-                }else{
-                    $scope.articleList=data.message;
-                    $scope.showMessage=true;
-                }
-            });
-        }
-        $scope.tmplateUrl="./build/template/admin/"+template+".html?"+Date.parse(new Date());
+    $scope.articleListPage = function (page){
+        $http.post(config.home_url + "/api/getArticle",{page:page}).success(function(data){
+            if(data.code==1){
+                $scope.articleList=data.data.data;
+                $scope.pageList=data.data.page;
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $scope.tmplateUrl="./build/template/admin/articleList.html?"+Date.parse(new Date());
     };
     $scope.addArticlePage = function () {
         $scope.tmplateUrl="./build/template/admin/addArticle.html?"+Date.parse(new Date());
