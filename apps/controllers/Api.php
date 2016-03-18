@@ -117,7 +117,100 @@ class Api extends BasicController
         $data = $chapter->get($id, "id")->get();
         return $this->returnSucess($data);
     }
-
+    /**
+     * 保存商品
+     *
+     * @return \App\type
+     */
+    function addGood()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $data["name"] = $request["name"];
+        $data["sale_price"] = $request["sale_price"];
+        $data["price"] = $request["price"];
+        $data["cate_id"] = $request["cate_id"];
+        $data["des"] = $request["des"];
+        $data["img"] = $request["img"];
+        $data["video"] = $request["video"];
+        $chapter = model('Good');
+        $flag = $chapter->put($data);
+        if ($flag) {
+            return $this->returnSucess("插入成功");
+        } else {
+            return $this->returnFailure("插入失败");
+        }
+    }
+    /**
+     * 根据ID 获取商品
+     *
+     * @return \App\type
+     */
+    function getGoodById()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $id = $request['good_id'];
+        $chapter = model('Good');
+        $data = $chapter->get($id, "good_id")->get();
+        return $this->returnSucess($data);
+    }
+    /**
+     * 获取商品列表
+     *
+     * @return \App\type
+     */
+    function getGood()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $cate_id=$request['cate_id'];
+        $is_recommend=$request['is_recommend'];
+        $is_font=$request['is_font'];
+        $where["order"] = 'good_id';
+        if($cate_id){
+            $where["where"][] = "cate_id = $cate_id";
+        }
+        if($is_recommend){
+            $where["where"][] = "is_recommend = $is_recommend";
+        }
+        $Chapter = model('Good');
+        if($is_font){
+            $Chapter->select='good_id,name,sale_price,cate_id,des,img,video,is_recommend';
+        }
+        $flag = $Chapter->gets($where);
+        if ($flag) {
+            return $this->returnSucess($flag);
+        } else {
+            return $this->returnFailure("插入失败");
+        }
+    }
+    /**
+     * 保存商品
+     *
+     * @return \App\type
+     */
+    function saveGood()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $id = $request['good_id'];
+        $data["name"] = $request["name"];
+        $data["sale_price"] = $request["sale_price"];
+        $data["price"] = $request["price"];
+        $data["cate_id"] = $request["cate_id"];
+        $data["des"] = $request["des"];
+        $data["img"] = $request["img"];
+        $data["video"] = $request["video"];
+        $data["is_recommend"] = $request["is_recommend"];
+        $chapter = model('Good');
+        $flag = $chapter->set($id, $data);
+        if ($flag) {
+            return $this->returnSucess($flag);
+        } else {
+            return $this->returnFailure("修改失败");
+        }
+    }
     /**
      * 保存文章
      *
@@ -199,6 +292,7 @@ class Api extends BasicController
         }
     }
 
+
     /**
      * 获取主页信息
      *
@@ -257,5 +351,70 @@ class Api extends BasicController
 
         }
         return $this->returnSucess($last);
+    }
+    /**
+     * 添加商品分类
+     *
+     * @return \App\type
+     */
+    function addCategory()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $data["cate_name"] = $request["cate_name"];
+        $data["rank"] = $request["rank"];
+        $chapter = model('Category');
+        $flag = $chapter->put($data);
+        if ($flag) {
+            return $this->returnSucess("插入成功");
+        } else {
+            return $this->returnFailure("插入失败");
+        }
+    }
+    function getCategory(){
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $where["order"] = 'rank';
+        $Chapter = model('Category');
+        $flag = $Chapter->gets($where);
+        if ($flag) {
+            return $this->returnSucess($flag);
+        } else {
+            return $this->returnFailure("插入失败");
+        }
+    }
+    /**
+     * 根据ID 获取章节
+     *
+     * @return \App\type
+     */
+    function getCategoryById()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $id = $request['cate_id'];
+        $chapter = model('Category');
+        $data = $chapter->get($id, "cate_id")->get();
+        return $this->returnSucess($data);
+    }
+    /**
+     * 保存章节
+     *
+     * @return \App\type
+     */
+    function saveCategory()
+    {
+        $postData = file_get_contents("php://input");
+        $request = json_decode($postData, 1);
+        $id = $request['cate_id'];
+        $data["cate_name"] = $request["cate_name"];
+        $data["rank"] = $request["rank"];
+        $chapter = model('Category');
+        $flag = $chapter->set($id, $data);
+        if ($flag) {
+            return $this->returnSucess($flag);
+        } else {
+            return $this->returnFailure("修改失败");
+        }
     }
 }

@@ -92,6 +92,7 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.sidebarUrl="./build/template/common/sidebar.html?"+Date.parse(new Date());
     $scope.controlSidebarUrl="./build/template/common/control_sidebar.html?"+Date.parse(new Date());
     $scope.articleList="";
+    $scope.goodsList="";
     if(!AuthenticationService.isLoggedIn()){
         $location.path("/login");
     }
@@ -197,7 +198,7 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
     $scope.saveArticle = function(article){
         $http.post(config.home_url + "/api/saveArticle",article).success(function(data){
             if(data.code==1){
-                $scope.changePage('articleList');
+                $scope.articleListPage(1);
             }else{
                 $scope.articleList=data.message;
                 $scope.showMessage=true;
@@ -231,6 +232,122 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         $http.post(config.home_url + "/api/saveChapter",chapter).success(function(data){
             if(data.code==1){
                 $scope.chapterList();
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+    };
+
+    //商品管理
+    $scope.addGoodPage = function () {
+        //获取分类
+        $http.post(config.home_url + "/api/getCategory").success(function(data){
+            if(data.code==1){
+                $scope.categorysList=data.data;
+            }else{
+                $scope.error=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $scope.tmplateUrl="./build/template/admin/addGood.html?"+Date.parse(new Date());
+    };
+    $scope.goodList = function (){
+        $http.post(config.home_url + "/api/getGood").success(function(data){
+            if(data.code==1){
+                $scope.goodsList=data.data;
+            }else{
+                $scope.goodsList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $scope.tmplateUrl="./build/template/admin/goodList.html?"+Date.parse(new Date());
+    };
+    $scope.addGood = function(good){
+        $http.post(config.home_url + "/api/addGood",good).success(function(data){
+            if(data.code==1){
+                $scope.goodList();
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+    };
+    $scope.good ={good_id:"",name:"",sale_price:"",price:'',cate_id:'',img:'',video:'',is_recommend:'',des:''};
+    $scope.editGood = function (id){
+        //获取分类
+        $http.post(config.home_url + "/api/getCategory").success(function(data){
+            if(data.code==1){
+                $scope.categorysList=data.data;
+            }else{
+                $scope.error=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $http.post(config.home_url + "/api/getGoodById",{good_id:id}).success(function(data){
+            console.log(data);
+            $scope.good.good_id=data.data.good_id;
+            $scope.good.name=data.data.name;
+            $scope.good.sale_price=data.data.sale_price;
+            $scope.good.price=data.data.price;
+            $scope.good.cate_id=data.data.cate_id;
+            $scope.good.img=data.data.img;
+            $scope.good.video=data.data.video;
+            $scope.good.is_recommend=data.data.is_recommend;
+            $scope.good.des=data.data.des;
+        });
+        $scope.tmplateUrl="./build/template/admin/editGood.html?"+Date.parse(new Date());
+    };
+    $scope.saveGood = function(good){
+        $http.post(config.home_url + "/api/saveGood",good).success(function(data){
+            if(data.code==1){
+                $scope.goodList();
+            }else{
+                $scope.articleList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+    };
+    //商品分类管理
+    $scope.addCategoryPage = function () {
+        $scope.tmplateUrl="./build/template/admin/addCategory.html?"+Date.parse(new Date());
+    };
+    $scope.categorysList='';
+    $scope.addCategory = function(category){
+        $http.post(config.home_url + "/api/addCategory",category).success(function(data){
+            if(data.code==1){
+                $scope.categorysList=data.data;
+            }else{
+                $scope.categorysList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+    };
+    $scope.categoryList = function (){
+        $http.post(config.home_url + "/api/getCategory").success(function(data){
+            if(data.code==1){
+                $scope.categorysList=data.data;
+            }else{
+                $scope.categorysList=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $scope.tmplateUrl="./build/template/admin/categoryList.html?"+Date.parse(new Date());
+    };
+    $scope.category={cate_id:'',cate_name:'',rank:''};
+    $scope.editCategory = function (id){
+        $http.post(config.home_url + "/api/getCategoryById",{cate_id:id}).success(function(data){
+            console.log(data);
+            $scope.category.cate_id=data.data.cate_id;
+            $scope.category.cate_name=data.data.cate_name;
+            $scope.category.rank=data.data.rank;
+        });
+        $scope.tmplateUrl="./build/template/admin/editCategory.html?"+Date.parse(new Date());
+    };
+    $scope.saveCategory = function(category){
+        $http.post(config.home_url + "/api/saveCategory",category).success(function(data){
+            if(data.code==1){
+                $scope.categoryList();
             }else{
                 $scope.articleList=data.message;
                 $scope.showMessage=true;

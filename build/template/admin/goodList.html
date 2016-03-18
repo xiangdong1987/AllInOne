@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="../../apps/static/plugins/datatables/dataTables.bootstrap.css">
+<section class="content-header">
+    <h1>
+        Data Tables
+        <small>advanced tables</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">文章列表</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                       aria-describedby="example2_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" rowspan="1" colspan="1">ID</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">名称</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">销售价格</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">批发价格</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">分类</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr role="row" ng-repeat="item in goodsList">
+                                        <td class="sorting_1">{{item.good_id}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.sale_price}}</td>
+                                        <td>{{item.price}}</td>
+                                        <td>{{item.cate_id}}</td>
+                                        <td><button ng-click="editGood(item.good_id)">编辑</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                                    总计数量{{pageList.total}}
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button previous {{pageList.page==1 ? 'disabled' : ''}}">
+                                            <a href="" data-dt-idx="0" tabindex="0" ng-click="articleListPage(pageList.page-1 ? pageList.page-1 : 1)">Previous</a>
+                                        </li>
+                                        <li ng-repeat="item in pageList.list" class="paginate_button {{item===pageList.page ? 'active' : ''}}" >
+                                            <a href="" data-dt-idx="1" tabindex="0" ng-click="articleListPage(item)" >{{item}}</a>
+                                        </li>
+                                        <li class="paginate_button next {{pageList.page==pageList.totalpage ? 'disabled' : '' }}">
+                                            <a href="" data-dt-idx="7" tabindex="0" ng-click="articleListPage(pageList.page-pageList.totalpage ? pageList.page+1 : pageList.totalpage)"">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+</section>
+

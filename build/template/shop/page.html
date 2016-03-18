@@ -1,0 +1,31 @@
+<section class="content">
+    <div class="col-md-9">
+        <div class="nav-tabs-custom">
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
+                    <!-- Post -->
+                    <div class="post" ng-repeat="item in goodsList">
+                        <h4>{{item.name}}</h4>
+                        <p class="price">¥{{item.sale_price}}</p>
+                        <!-- /.user-block -->
+                        <div class="row margin-bottom">
+                            <div class="col-sm-6">
+
+                                <!--<img class="img-responsive" src="http://www.showbig.com.cn/static/video/9.jpg" alt="Photo">-->
+                                <video ng-if="item.video" src="{{item.video}}" controls="controls" width="240" height="180"></video>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <!--<p ng-bind-html="item.des"></p>-->
+
+                        <p  ng-bind-html="item.des | to_trusted"></p>
+                    </div>
+                    <!-- /.post -->
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+    </div>
+</section>
