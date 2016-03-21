@@ -92,11 +92,11 @@ class Api extends BasicController
         $where["order"] = 'id';
         $where["page"] = $page;
         $Article = model('Article');
-        $pageStat=[];
-        $flag = $Article->gets($where,$pageStat);
+        $pageStat = [];
+        $flag = $Article->gets($where, $pageStat);
         if ($flag) {
-            $result['data']=$flag;
-            $result['page']=handlePage((array)$pageStat);
+            $result['data'] = $flag;
+            $result['page'] = handlePage((array)$pageStat);
             return $this->returnSucess($result);
         } else {
             return $this->returnFailure("插入失败");
@@ -117,6 +117,7 @@ class Api extends BasicController
         $data = $chapter->get($id, "id")->get();
         return $this->returnSucess($data);
     }
+
     /**
      * 保存商品
      *
@@ -141,6 +142,7 @@ class Api extends BasicController
             return $this->returnFailure("插入失败");
         }
     }
+
     /**
      * 根据ID 获取商品
      *
@@ -155,6 +157,7 @@ class Api extends BasicController
         $data = $chapter->get($id, "good_id")->get();
         return $this->returnSucess($data);
     }
+
     /**
      * 获取商品列表
      *
@@ -164,19 +167,19 @@ class Api extends BasicController
     {
         $postData = file_get_contents("php://input");
         $request = json_decode($postData, 1);
-        $cate_id=$request['cate_id'];
-        $is_recommend=$request['is_recommend'];
-        $is_font=$request['is_font'];
+        $cate_id = $request['cate_id'];
+        $is_recommend = $request['is_recommend'];
+        $is_font = $request['is_font'];
         $where["order"] = 'good_id';
-        if($cate_id){
+        if ($cate_id) {
             $where["where"][] = "cate_id = $cate_id";
         }
-        if($is_recommend){
+        if ($is_recommend) {
             $where["where"][] = "is_recommend = $is_recommend";
         }
         $Chapter = model('Good');
-        if($is_font){
-            $Chapter->select='good_id,name,sale_price,cate_id,des,img,video,is_recommend';
+        if ($is_font) {
+            $Chapter->select = 'good_id,name,sale_price,cate_id,des,img,video,is_recommend';
         }
         $flag = $Chapter->gets($where);
         if ($flag) {
@@ -185,6 +188,7 @@ class Api extends BasicController
             return $this->returnFailure("插入失败");
         }
     }
+
     /**
      * 保存商品
      *
@@ -211,6 +215,7 @@ class Api extends BasicController
             return $this->returnFailure("修改失败");
         }
     }
+
     /**
      * 保存文章
      *
@@ -352,6 +357,7 @@ class Api extends BasicController
         }
         return $this->returnSucess($last);
     }
+
     /**
      * 添加商品分类
      *
@@ -371,7 +377,9 @@ class Api extends BasicController
             return $this->returnFailure("插入失败");
         }
     }
-    function getCategory(){
+
+    function getCategory()
+    {
         $postData = file_get_contents("php://input");
         $request = json_decode($postData, 1);
         $where["order"] = 'rank';
@@ -383,6 +391,7 @@ class Api extends BasicController
             return $this->returnFailure("插入失败");
         }
     }
+
     /**
      * 根据ID 获取章节
      *
@@ -397,6 +406,7 @@ class Api extends BasicController
         $data = $chapter->get($id, "cate_id")->get();
         return $this->returnSucess($data);
     }
+
     /**
      * 保存章节
      *
@@ -415,6 +425,33 @@ class Api extends BasicController
             return $this->returnSucess($flag);
         } else {
             return $this->returnFailure("修改失败");
+        }
+    }
+
+    /**
+     * 图片上传
+     * @return \App\type
+     */
+    function uploadFile()
+    {
+        $path="/data/www/AllInOne/video/";
+        $domain="http://www.showbig.com.cn/video/";
+        if ($_FILES["file"]["type"] == "video/mp4") {
+            if ($_FILES["file"]["error"] > 0) {
+                $message="Return Code: " . $_FILES["file"]["error"] . "<br />";
+                return $this->returnFailure($message);
+            } else {
+                if (file_exists($path . $_FILES["file"]["name"])) {
+                    $message=$_FILES["file"]["name"] . " already exists. ";
+                    return $this->returnFailure($message);
+                } else {
+                    $flag=move_uploaded_file($_FILES["file"]["tmp_name"], $path. $_FILES["file"]["name"]);
+                    return $this->returnSucess($domain.$_FILES["file"]["name"]);
+                }
+            }
+        } else {
+            $message="Invalid file";
+            return $this->returnFailure($message);
         }
     }
 }

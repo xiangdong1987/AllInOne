@@ -58,8 +58,23 @@ app.factory("AuthenticationService", function ($http, $location, SessionService)
         }
     };
 });
+app.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function (file, uploadUrl) {
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+            .success(function (data) {
+                console.log(data);
+            })
+            .error(function () {
 
-app.controller("LoginController", function ($scope, $location, $http, AuthenticationService) {
+            });
+    }
+}]);
+app.controller("LoginController", function ($scope, $location, $http,fileUpload, AuthenticationService) {
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.bodyClass = 'hold-transition login-page';
     if(!AuthenticationService.isLoggedIn()){
@@ -79,7 +94,7 @@ app.controller("LoginController", function ($scope, $location, $http, Authentica
     };
 
 });
-app.controller("HomeController", function ($scope, $location, $http, AuthenticationService) {
+app.controller("HomeController", function ($scope, $location, fileUpload,$http, AuthenticationService) {
     $scope.credentials = {UserName: "", Password: "", RememberMe: false};
     $scope.sidebar='';
     $scope.userMenu='';
@@ -118,7 +133,18 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
             }
         });
     };
-
+    $scope.uploadFile = function(files){
+        var fd = new FormData();
+        var uploadUrl = "uploadFile";
+        fd.append('file', files[0]);
+        $http.post(config.home_url+uploadUrl, fd, {
+            withCredentials: true,
+            headers: {'Content-Type': undefined },
+            transformRequest: angular.identity
+        }).success(function(data){
+            console.log(data);
+        }).error();
+    };
     $scope.logout = function () {
         AuthenticationService.logout().success(function (data) {
             $location.path("/login");
@@ -252,8 +278,20 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         });
         $scope.tmplateUrl="./build/template/admin/addGood.html?"+Date.parse(new Date());
     };
-    $scope.goodList = function (){
-        $http.post(config.home_url + "/api/getGood").success(function(data){
+    $scope.goodList = function (cid){
+        if(!cid){
+            cid=0;
+        }
+        //获取分类
+        $http.post(config.home_url + "/api/getCategory").success(function(data){
+            if(data.code==1){
+                $scope.categorysList=data.data;
+            }else{
+                $scope.error=data.message;
+                $scope.showMessage=true;
+            }
+        });
+        $http.post(config.home_url + "/api/getGood",{cate_id:cid}).success(function(data){
             if(data.code==1){
                 $scope.goodsList=data.data;
             }else{
@@ -263,6 +301,10 @@ app.controller("HomeController", function ($scope, $location, $http, Authenticat
         });
         $scope.tmplateUrl="./build/template/admin/goodList.html?"+Date.parse(new Date());
     };
+    $scope.loadGood=function (){
+        var cid=$scope.category.cate_id;
+        $scope.goodList(cid);
+    }
     $scope.addGood = function(good){
         $http.post(config.home_url + "/api/addGood",good).success(function(data){
             if(data.code==1){

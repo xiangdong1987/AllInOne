@@ -41,11 +41,14 @@
                         <option ng-repeat="item in categorysList" ng-selected="item.cate_id==good.cate_id" value="{{item.cate_id}}">{{item.cate_name}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="img" ng-model="good.img" placeholder="图片">
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<input type="text" class="form-control" name="img" ng-model="good.img" placeholder="图片">-->
+                <!--</div>-->
                 <div class="form-group">
                     <input type="text" class="form-control" name="video" ng-model="good.video" placeholder="视频">
+                </div>
+                <div class="form-group">
+                    <input type = "file" class="form-control"  onchange="angular.element(this).scope().uploadFile(this.files)" /><button ng-click = "uploadFile()">upload me</button>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="is_recommend" ng-model="good.is_recommend" placeholder="是否推荐">

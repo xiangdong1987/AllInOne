@@ -34,7 +34,12 @@
                                         <th tabindex="0" rowspan="1" colspan="1">名称</th>
                                         <th tabindex="0" rowspan="1" colspan="1">销售价格</th>
                                         <th tabindex="0" rowspan="1" colspan="1">批发价格</th>
-                                        <th tabindex="0" rowspan="1" colspan="1">分类</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">
+                                            <select ng-model="category.cate_id" ng-change="loadGood()">
+                                                <option value="">---请选择---</option>
+                                                <option ng-repeat="item in categorysList" ng-selected="item.cate_id==good.cate_id" value="{{item.cate_id}}">{{item.cate_name}}</option>
+                                            </select>
+                                        </th>
                                         <th tabindex="0" rowspan="1" colspan="1">操作</th>
                                     </tr>
                                     </thead>

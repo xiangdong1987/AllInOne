@@ -19,7 +19,7 @@
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="#/home" class="logo">
+            <a href="#/index" class="logo">
                 <span class="logo-mini"><b>Y</b>M</span>
                 <span class="logo-lg"><b>Ying</b>Mother<b>秘密花园</b></span>
             </a>
@@ -34,36 +34,12 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
-                <!-- search form -->
-                <!--<form action="#" method="get" class="sidebar-form">-->
-                    <!--<div class="input-group">-->
-                        <!--<input type="text" name="q" class="form-control" placeholder="Search...">-->
-              <!--<span class="input-group-btn">-->
-                <!--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>-->
-                <!--</button>-->
-              <!--</span>-->
-                    <!--</div>-->
-                <!--</form>-->
-                <!-- /.search form -->
-                <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" >
                     <li class="header">分类</li>
                     <li class="treeview" toggle-class="active" ng-repeat="one in menu">
                         <a href="" ng-click="transformPage(one.cate_id)">
                             <i class="fa fa-book"></i> <span>{{one.cate_name}}</span>
                         </a>
-
-                        <!--<ul class="treeview-menu">-->
-                            <!--<li ng-repeat="second in first.list ">-->
-                                <!--<a href=""><i class="fa fa-circle-o"></i> {{second.name}}</a>-->
-                                <!--<ul class="treeview-menu menu-open" style="display: block;">-->
-                                    <!--<li ng-repeat="third in second.list ">-->
-                                        <!--<a href="" ng-click="transformPage(third.id)"><i class="fa fa-circle-o"></i>{{third.name}}</a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                        <!--</ul>-->
                     </li>
                 </ul>
             </section>

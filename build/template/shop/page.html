@@ -1,24 +1,21 @@
 <section class="content">
-    <div class="col-md-9">
+    <div class="col-xd-9">
         <div class="nav-tabs-custom">
             <div class="tab-content">
                 <div class="active tab-pane" id="activity">
-                    <!-- Post -->
-                    <div class="post" ng-repeat="item in goodsList">
-                        <h4>{{item.name}}</h4>
-                        <p class="price">¥{{item.sale_price}}</p>
-                        <!-- /.user-block -->
-                        <div class="row margin-bottom">
-                            <div class="col-sm-6">
-
-                                <!--<img class="img-responsive" src="http://www.showbig.com.cn/static/video/9.jpg" alt="Photo">-->
-                                <video ng-if="item.video" src="{{item.video}}" controls="controls" width="240" height="180"></video>
-                            </div>
+                    <div class="box" ng-repeat="item in goodsList">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">{{item.name}}</h3>
                         </div>
-                        <!-- /.row -->
-                        <!--<p ng-bind-html="item.des"></p>-->
-
-                        <p  ng-bind-html="item.des | to_trusted"></p>
+                        <div class="box-body">
+                            <video ng-if="item.video" src="{{item.video}}" controls="controls" width="250" height="180"></video>
+                            <p  ng-bind-html="item.des | to_trusted"></p>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <p class="price">¥{{item.sale_price}}</p>
+                        </div>
+                        <!-- /.box-footer-->
                     </div>
                     <!-- /.post -->
                 </div>
